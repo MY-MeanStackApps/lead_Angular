@@ -27,6 +27,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,6 +36,10 @@
                                     <td>{{items.name | uppercase}}</td>
                                     <td>{{items.email}}</td>
                                     <td>{{items.phone}}</td>
+                                    <td>
+                                        <i class="fa fa-pencil mr-4" aria-hidden="true" (click)="singleOnclick(items._id)" data-toggle="modal" data-target="#UpdateModal"></i>
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="delete(items._id)"></i>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -93,6 +98,51 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <input type="submit" [disabled]="!leadForm.valid" class="btn btn-primary" value="save">
                     <input type="button" hidden data-dismiss="modal" id="closeModal1">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<!-- Update Modal -->
+<div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="UpdateModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="UpdateModal">Update Leads</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-12 col-md-12">
+                        <label for="name1">Name</label>
+                        <input type="text" placeholder="Name" id="name1" class="form-control" name="nam1" [(ngModel)]="UpdateForm.name">
+
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+                        <label for="email1">Email</label>
+                        <input type="email" placeholder="Email" id="email1" class="form-control" name="em1" [(ngModel)]="UpdateForm.email">
+
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+                        <label for="phone1">Phone</label>
+                        <input type="number" placeholder="Phone" id="phone1" class="form-control" name="phon1" [(ngModel)]="UpdateForm.phone">
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary" value="save" (click)="Update()">
+                    <input type="button" hidden data-dismiss="modal" id="closeUpdateModel1">
                 </div>
             </div>
         </form>

@@ -28,7 +28,7 @@
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Compaign Date</th>
-                                    <th>Remove</th>
+                                    <th class="text-right pr-4">Remove</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,7 +38,9 @@
                                     <td>{{items?.lead?.email}}</td>
                                     <td>{{items?.lead?.phone}}</td>
                                     <td>{{items?.compaigndate}}</td>
-                                    <td>coming soon</td>
+                                    <td class="text-right pr-5">
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="delete(items._id)"></i>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -121,7 +123,7 @@
                 <div class="modal-footer date_footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <input type="submit" [disabled]="!compForm.valid" class="btn btn-primary" value="save">
-                    <input type="button" hidden data-dismiss="modal" id="closeModal2">
+                    <input type="button" hidden data-dismiss="modal" id="closeModal3">
                 </div>
             </form>
         </div>

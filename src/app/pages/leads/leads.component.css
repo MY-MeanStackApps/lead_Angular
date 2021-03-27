@@ -3,3 +3,11 @@
     color: red !important;
     font-family: sans-serif;
 }
+
+.fa-pencil {
+    cursor: pointer;
+}
+
+.fa-trash-o {
+    cursor: pointer;
+}

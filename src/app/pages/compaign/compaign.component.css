@@ -43,3 +43,11 @@
     bottom: 0px;
     width: 100%;
 }
+
+.fa-pencil {
+    cursor: pointer;
+}
+
+.fa-trash-o {
+    cursor: pointer;
+}

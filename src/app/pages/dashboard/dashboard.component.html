@@ -4,16 +4,17 @@
         <div class="col-md-4 mt-5">
             <h2>Total Leads</h2>
 
-            <div class="progress" *ngIf="leadsCount?.length <= 0">
+            <div class="progress" *ngIf="leadNum <= 0">
                 <div class="progress-bar" role="progressbar" style="width:0%">
-                    <span class="text-primary">No Leads Found</span>
                 </div>
+                <span class="text-primary" id="noLeads">No Leads Found</span>
+
             </div>
 
-            <div *ngIf="leadsCount?.length >= 1">
+            <div *ngIf="leadNum >= 1">
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width:{{leadsCount}}%;">
-                        <span>{{leadsCount?.length}} </span>
+                    <div class="progress-bar" role="progressbar" style="width:{{leadNum}}%;">
+                        <span>{{leadNum}} </span>
                     </div>
                 </div>
             </div>

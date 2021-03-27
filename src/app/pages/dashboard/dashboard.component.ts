@@ -8,6 +8,7 @@ import { LeadService } from '../../services/lead.service';
 })
 export class DashboardComponent implements OnInit {
   leadsCount =  [];
+  leadNum: number;
   constructor(
     private leadSrv: LeadService
   ) { }
@@ -16,6 +17,7 @@ export class DashboardComponent implements OnInit {
     this.leadSrv.getall().subscribe((res: any) => {
       this.leadsCount = res.data;
       console.log(res);
+      this.leadNum = this.leadsCount.length;
     })
   }
 

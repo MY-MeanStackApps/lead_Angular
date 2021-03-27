@@ -23,4 +23,12 @@ export class LeadService {
     return this.http.get(this.baseUrl + '/lead/'+id);
   }
 
+  edit(data){
+    return this.http.post(this.baseUrl + '/lead/update/',data);
+  }
+
+  delete(id){
+    return this.http.delete(this.baseUrl + '/lead/'+id);
+  }
+
 }

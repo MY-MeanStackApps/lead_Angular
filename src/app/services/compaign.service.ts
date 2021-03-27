@@ -22,4 +22,9 @@ export class CompaignService {
   singleCompaign(id){
     return this.http.get(this.baseUrl + '/compaign/'+id);
   }
+
+  delete(id){
+    return this.http.delete(this.baseUrl + '/compaign/'+id);
+  }
+
 }

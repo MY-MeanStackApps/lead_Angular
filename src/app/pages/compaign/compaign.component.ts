@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LeadService } from 'src/app/services/lead.service';
 import { CompaignService } from '../../services/compaign.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-compaign',
@@ -36,7 +37,6 @@ export class CompaignComponent implements OnInit {
 
     this.comSrv.getallCompaigns().subscribe((res: any) => {
       this.Compaigns = res.data;
-      console.log(res.data);
     });
 
     this.leadSrv.getall().subscribe((res: any) => {
@@ -52,8 +52,8 @@ export class CompaignComponent implements OnInit {
     }
     this.comSrv.createCompaigns(data).subscribe((res: any) => {
       if (res.message == "success") {
-        this.toast.error('successfully add' , '' ,{
-          timeOut: 1000,
+        this.toast.success('Successfully add' , '' ,{
+          timeOut: 3000,
           positionClass: 'toast-bottom-left',
           progressBar: true,
           progressAnimation: 'increasing'
@@ -61,11 +61,11 @@ export class CompaignComponent implements OnInit {
         this.comSrv.getallCompaigns().subscribe((res: any) => {
           this.Compaigns = res.data;
         });
-        document.getElementById('closeModal1').click();
+        document.getElementById('closeModal3').click();
         document.getElementById('closeModal2').click();
         this.compForm.reset();
       }else if (res.message == "lead already") {
-        this.toast.error('This Lead alreday member of compaign' , '' ,{
+        this.toast.error('This Lead is already member of Compaign' , '' ,{
           timeOut: 3000,
           positionClass: 'toast-bottom-left',
           progressBar: true,
@@ -82,6 +82,36 @@ export class CompaignComponent implements OnInit {
 
   Onselect(id){
     this.LeadId = id;
+  }
+
+  delete(id){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.comSrv.delete(id).subscribe((data: any) => {
+          console.log(data)
+          if (data.message == 'success') {
+            this.toast.success('Deleted Successfully' , '' ,{
+              timeOut: 2000,
+              positionClass: 'toast-bottom-left',
+              progressBar: true,
+              progressAnimation: 'increasing'
+            });
+            this.comSrv.getallCompaigns().subscribe((res: any) => {
+              this.Compaigns = res.data;
+            });
+          } else{
+            console.log('something went wrong');
+          }
+        });
+      }
+    });
   }
 
 }
