@@ -1,0 +1,9 @@
+.navbar-brand h5 {
+    outline: none !important;
+    cursor: pointer;
+}
+
+.nav-item .nav-link {
+    font-size: 18px;
+    color: white;
+}

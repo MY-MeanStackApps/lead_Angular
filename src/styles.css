@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+
+.container-fluid {
+    margin-top: 60px;
+}
+
+.active {
+    border-bottom: 3px solid white;
+}
+
+nav {
+    min-height: 61px;
+}
+
+nav .nav-item {
+    min-width: 80px;
+    text-align: center;
+}
+
+.card {
+    background-color: #f9f9f9 !important;
+}
+
+.btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.modal-footer {
+    background: #f3f2f2 !important;
+}
+
+.btn-primary {
+    background-color: #1b5297 !important;
+}
+
+.btn-secondary {
+    background-color: white !important;
+    color: #1b5297 !important;
+}

@@ -1,0 +1,129 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="row justify-content-center mt-5">
+        <div class="col-12 col-md-9 mt-5">
+            <div class="card">
+                <div class="card-body">
+
+                    <!--When No Compaign Found-->
+                    <div class="row justify-content-center" *ngIf="Compaigns?.length <= 0">
+                        <div class="col-6 col-md-6">
+                            <p>No Compains found</p>
+                        </div>
+                        <div class="col-6 col-md-6 justify-content-end">
+                            <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#AddModal1" style="float: right;"> Add Compaign </button>
+                        </div>
+                    </div>
+
+                    <!--When Compaign available-->
+                    <div *ngIf="Compaigns?.length >= 1">
+                        <div class="row justify-content-end">
+                            <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#AddModal1"> Add Compaign </button>
+                        </div>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Compaign Date</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let items of Compaigns;index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{items?.lead?.name | uppercase}}</td>
+                                    <td>{{items?.lead?.email}}</td>
+                                    <td>{{items?.lead?.phone}}</td>
+                                    <td>{{items?.compaigndate}}</td>
+                                    <td>coming soon</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="AddModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Leads</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3" id="Search_Group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                              <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]="searchText" autocomplete="off" placeholder="Search" name="djk" id="searchInput">
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID <i class="fa fa-sort" aria-hidden="true" (click)="sort('_id')"></i> </th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>createdAt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let items of Leads| filter:searchText | paginate: { itemsPerPage: 4, currentPage: p } | orderBy: key : reverse  ; index as i">
+                            <td>{{i+1}} <button class="btn plus ml-3" data-toggle="modal" data-target="#addDate" (click)="Onselect(items?._id)"> <i class="fa fa-plus" aria-hidden="true"></i> </button> </td>
+                            <td>{{items?.name | uppercase}}</td>
+                            <td>{{items?.email}}</td>
+                            <td>{{items?.phone}}</td>
+                            <td>{{items?.createdAt | date: 'd MMM h:mm a'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--Pagination Controls-->
+                <pagination-controls (pageChange)="p = $event" *ngIf="Leads?.length > 4"></pagination-controls>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input type="button" hidden data-dismiss="modal" id="closeModal2">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addDate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form [formGroup]="compForm" (ngSubmit)="submit(compForm)">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Compaign Date</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-12 col-md-12">
+                        <label for="nam1">Add Compaign Date</label>
+                        <input type="date" class="form-control" formControlName="compaigndate">
+                    </div>
+
+                </div>
+                <div class="modal-footer date_footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" [disabled]="!compForm.valid" class="btn btn-primary" value="save">
+                    <input type="button" hidden data-dismiss="modal" id="closeModal2">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
