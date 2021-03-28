@@ -14,47 +14,26 @@ import { DatePipe } from '@angular/common';
 export class CompaignComponent implements OnInit {
 
   Compaigns: any;
-  Leads: any;
   searchText: '';
   p: number = 1;
   key = 'id';
   reverse:boolean = false;
-  LeadId: any;
   todayDate = this.datepipe.transform(Date.now() , 'yyyy-MM-dd');
 
-  get name (){return this.leadForm.get('name')};
-  get email (){return this.leadForm.get('email')};
-  get phone (){return this.leadForm.get('phone')};
-
-  compForm = {name: '', email: '', compaigndate: '' , lead: ''};
+  compForm = {name: '', email: '', compaigndate: ''};
   UpdateForm = {name: '', email: '', id: ''};
 
   constructor(
-    private _fb: FormBuilder,
     private comSrv: CompaignService,
     private toast: ToastrService,
-    private leadSrv: LeadService,
     public datepipe: DatePipe
     ) { }
 
 
-  leadForm = this._fb.group({
-    name: ['', [Validators.required]],
-    email: ['', [Validators.required]],
-    phone: ['', [Validators.required]],
-  })
-
-
   ngOnInit(): void {
-
     this.comSrv.getallCompaigns().subscribe((res: any) => {
       this.Compaigns = res.data;
     });
-
-    this.leadSrv.getall().subscribe((res: any) => {
-      this.Leads = res.data;
-    });
-
   }
 
   submit(){
@@ -66,7 +45,6 @@ export class CompaignComponent implements OnInit {
         progressAnimation: 'increasing'
       });
     } else {
-      this.compForm.lead = this.LeadId;
     this.comSrv.createCompaigns(this.compForm).subscribe((res: any) => {
       if (res.message == "success") {
         this.toast.success('Successfully add' , '' ,{
@@ -78,8 +56,7 @@ export class CompaignComponent implements OnInit {
         this.comSrv.getallCompaigns().subscribe((res: any) => {
           this.Compaigns = res.data;
         });
-        document.getElementById('closeModal2').click();
-        document.getElementById('closeModal3').click();
+        document.getElementById('add_Compaign_MOdal').click();
         this.compForm.name = '';
         this.compForm.email = '';
         this.compForm.compaigndate = '';
@@ -88,43 +65,9 @@ export class CompaignComponent implements OnInit {
     }
   }
 
-  submitLead(form: FormGroup){
-    var data = {
-      name: this.leadForm.controls.name.value,
-      email: this.leadForm.controls.email.value,
-      phone: this.leadForm.controls.phone.value
-    }
-    this.leadSrv.createLeads(data).subscribe((res: any) => {
-      if (res.message == "success") {
-        this.toast.success('successfully add' , '' ,{
-          timeOut: 1000,
-          positionClass: 'toast-bottom-left',
-          progressBar: true,
-          progressAnimation: 'increasing'
-        });
-        this.leadSrv.getall().subscribe((res: any) => {
-          this.Leads = res.data;
-        });
-        document.getElementById('leadModalClose').click();
-        this.leadForm.reset();
-      }else if (res.message == "email already") {
-        this.toast.error('Email is alreday exist' , '' ,{
-          timeOut: 2000,
-          positionClass: 'toast-bottom-left',
-          progressBar: true,
-          progressAnimation: 'increasing'
-        });
-      }
-    })
-  }
-
   sort(key){
     this.key = key;
     this.reverse = !this.reverse;
-  }
-
-  Onselect(id){
-    this.LeadId = id;
   }
 
   UpdateCompaign(){
@@ -162,9 +105,9 @@ export class CompaignComponent implements OnInit {
       })
     }
   }
+
   singleOnclick(id){
     this.comSrv.singleCompaign(id).subscribe((res: any) => {
-      // console.log(res);
       this.UpdateForm.name = res.data[0].name;
       this.UpdateForm.email = res.data[0].email;
       this.UpdateForm.id = id;

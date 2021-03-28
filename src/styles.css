@@ -38,3 +38,30 @@ nav .nav-item {
     background-color: white !important;
     color: #1b5297 !important;
 }
+
+#Search_Group {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px !important;
+}
+
+#Search_Group #searchInput {
+    border: none !important;
+}
+
+#Search_Group #searchInput:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+#Search_Group .input-group-text {
+    border: none !important;
+}
+
+.fa-sort {
+    cursor: pointer;
+}
+
+pagination-controls {
+    position: absolute;
+    bottom: 0px;
+}

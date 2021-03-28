@@ -1,0 +1,214 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="row justify-content-center mt-5">
+        <div class="col-12 col-md-9 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" *ngIf="members?.length <= 0">
+                        <div class="col-md-6">
+                            <p>No Member's Available in This Compain</p>
+                        </div>
+                        <div class="col-md-6 justify-content-end">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#AddModal1" style="float: right;"> Add Leads </button>
+                        </div>
+                    </div>
+                    <!--When Compaign available-->
+                    <div *ngIf="members?.length >= 1">
+                        <h5>{{singleCompaign?.name}}</h5>
+                        <div class="row justify-content-end">
+                            <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#AddModal1"> Add Leads </button>
+                        </div>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Lead Name</th>
+                                    <th>Compaign Name</th>
+                                    <th>Compaign Email</th>
+                                    <th>Compaign Date</th>
+                                    <th class="text-right pr-4">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let items of members;index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{items?.lead?.name }}</td>
+                                    <td>{{items?.compaign?.name }}</td>
+                                    <td>{{items?.compaign?.email }}</td>
+                                    <td>{{items?.compaign?.compaigndate }}</td>
+                                    <td class="text-right pr-5">
+                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="delete(items._id)"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="AddModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Leads to Compaign</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div *ngIf="Leads?.length >= 1">
+                    <div class="input-group mb-3" id="Search_Group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" [(ngModel)]="searchText" autocomplete="off" placeholder="Search Ledas" name="djk" id="searchInput">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <input type="checkbox" class="ml-3" id="check" (click)="checkAll()">
+                            <label for="check" class="ml-3"> Select All </label>
+                            <span class="pl-3" *ngIf="total_selected?.length >= 1">{{total_selected?.length}} records Selected
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#LeadAddModal" style="float: right;">Add Lead</button>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID <i class="fa fa-sort" aria-hidden="true" (click)="sort('_id')"></i> </th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>createdAt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let items of Leads| filter:searchText | paginate: { itemsPerPage: 4, currentPage: p } | orderBy: key : reverse  ; index as i">
+                                <td>{{i+1}} <button class="btn plus ml-3" data-toggle="modal" data-target="#addDate" (click)="Onselect(items?.element?._id)"> <i class="fa fa-plus" aria-hidden="true" *ngIf="!items?.selected"></i> <i class="fa fa-check" aria-hidden="true" *ngIf="items?.selected"></i> </button>                                    </td>
+                                <td>{{items?.element?.name | uppercase}}</td>
+                                <td>{{items?.element?.email}}</td>
+                                <td>{{items?.element?.phone}}</td>
+                                <td>{{items?.element?.createdAt | date: 'd MMM h:mm a'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--Pagination Controls-->
+                    <pagination-controls (pageChange)="p = $event" *ngIf="Leads?.length > 4"></pagination-controls>
+                </div>
+                <div *ngIf="Leads?.length <= 0">
+                    <p id="noLeadfound">No Lead found.
+                        <a data-toggle="modal" data-target="#LeadAddModal"> Add new </a>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" *ngIf="total_selected?.length >= 1" data-target="#AddleadByCompaign" data-toggle="modal"> Next </button>
+                <button type="button" class="btn btn-primary" *ngIf="total_selected?.length <= 0" (click)="emptyNext()"> Next </button>
+                <input type="button" hidden data-dismiss="modal" id="closeModal2">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add new lead Modal -->
+<div class="modal fade" id="AddleadByCompaign" tabindex="-1" role="dialog" aria-labelledby="AddleadByCompaign" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddleadByCompaign">Add to compaign</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group col-12 col-md-12">
+                        <p *ngIf="total_selected?.length >= 1">{{total_selected?.length}} Leads Selected</p>
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+                        <label for="compName">Compaign</label>
+                        <input type="text" disabled value="{{singleCompaign?.name}}" class="form-control">
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+                        <p id="leadName" *ngFor="let items of total_selected">{{items?.name | uppercase}}</p>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary" value="save" (click)="AddLeadToCompaign()">
+                    <input type="button" hidden data-dismiss="modal" id="addToCompaign">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add new lead Modal -->
+<div class="modal fade" id="LeadAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form [formGroup]="leadForm" (ngSubmit)="submitLead(leadForm)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Leads</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-12 col-md-12">
+                        <label for="name1">Name</label>
+                        <input type="text" placeholder="Name" id="name1" class="form-control" formControlName="name">
+                        <div class="req" *ngIf="name.invalid && (name.dirty || name.touched)">
+                            <span *ngIf="name.errors.required">
+                            Name is required.
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+                        <label for="email1">Email</label>
+                        <input type="email" placeholder="Email" id="email1" class="form-control" formControlName="email">
+                        <div class="req" *ngIf="email.invalid && (email.dirty || email.touched)">
+                            <span *ngIf="email.errors.required">
+                            Email is required.
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+                        <label for="phone1">Phone</label>
+                        <input type="number" placeholder="Phone" id="phone1" class="form-control" formControlName="phone">
+                        <div class="req" *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+                            <span *ngIf="phone.errors.required">
+                            Phone is required.
+                        </span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" [disabled]="!leadForm.valid" class="btn btn-primary" value="save">
+                    <input type="button" hidden data-dismiss="modal" id="leadModalClose">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

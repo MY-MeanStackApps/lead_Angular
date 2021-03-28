@@ -4,34 +4,8 @@
     font-family: sans-serif;
 }
 
-#Search_Group {
-    border: 1px solid #d0d0d0;
-    border-radius: 4px !important;
-}
-
-#Search_Group #searchInput {
-    border: none !important;
-}
-
-#Search_Group #searchInput:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-#Search_Group .input-group-text {
-    border: none !important;
-}
-
 .modal-content {
     min-height: 575px
-}
-
-.plus {
-    background: #dedede;
-}
-
-.plus i {
-    color: #3173ca;
 }
 
 .fa-sort {
@@ -52,16 +26,10 @@
     cursor: pointer;
 }
 
-#noLeadfound {
-    text-align: center;
-    line-height: 390px;
+td:focus {
+    outline: none !important;
 }
 
-#noLeadfound a {
-    text-decoration: none;
+#routingtd {
     cursor: pointer;
-    color: #5d5dff;
-    font-weight: 700;
-    font-family: revert;
-    margin: 0px 11px;
 }

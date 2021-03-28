@@ -1,0 +1,42 @@
+#noLeadfound {
+    text-align: center;
+    line-height: 390px;
+}
+
+#noLeadfound a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #5d5dff;
+    font-weight: 700;
+    font-family: revert;
+    margin: 0px 11px;
+}
+
+.modal-content {
+    min-height: 575px
+}
+
+.plus {
+    background: #ececec;
+    border: 1px solid #b7b7b7;
+}
+
+.plus i {
+    color: #4545ec;
+    font-size: 18px;
+}
+
+#leadName {
+    min-width: 90px;
+    float: left;
+    margin: 0px 20px 0px 0px;
+    background: #e8e8e8;
+    padding: 5px 10px;
+    border-radius: 21px;
+    border: 1px solid #bdbdbd;
+    text-align: center;
+}
+
+.fa-trash-o {
+    cursor: pointer;
+}

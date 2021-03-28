@@ -18,6 +18,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
+import { CompMemberComponent } from './pages/comp-member/comp-member.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DatePipe } from '@angular/common';
     LeadsComponent,
     CompaignComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    CompMemberComponent
   ],
   imports: [
     BrowserModule,

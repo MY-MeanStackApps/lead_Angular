@@ -11,20 +11,19 @@
                             <p class="pt-2">No Compains found</p>
                         </div>
                         <div class="col-6 col-md-6 justify-content-end">
-                            <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#AddModal1" style="float: right;"> Add Compaign </button>
+                            <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#addCompaign" style="float: right;"> Add Compaign </button>
                         </div>
                     </div>
 
                     <!--When Compaign available-->
                     <div *ngIf="Compaigns?.length >= 1">
                         <div class="row justify-content-end">
-                            <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#AddModal1"> Add Compaign </button>
+                            <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#addCompaign"> Add Compaign </button>
                         </div>
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Lead Name</th>
                                     <th>Compaign Name</th>
                                     <th>Compaign Email</th>
                                     <th>Compaign Date</th>
@@ -34,8 +33,7 @@
                             <tbody>
                                 <tr *ngFor="let items of Compaigns;index as i">
                                     <td>{{i+1}}</td>
-                                    <td>{{items?.lead?.name | uppercase}}</td>
-                                    <td>{{items?.name | uppercase}}</td>
+                                    <td id="routingtd" routerLink="/compaign/{{items?._id}}">{{items?.name | uppercase}}</td>
                                     <td>{{items?.email}}</td>
                                     <td>{{items?.compaigndate}}</td>
                                     <td class="text-right pr-5">
@@ -52,75 +50,14 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="AddModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Leads to Compaign</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-body">
-                <div *ngIf="Leads?.length >= 1">
-                    <div class="input-group mb-3" id="Search_Group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                          </span>
-                        </div>
-                        <input type="text" class="form-control" [(ngModel)]="searchText" autocomplete="off" placeholder="Search Ledas" name="djk" id="searchInput">
-                    </div>
-                    <div class="row justify-content-end pr-3 pb-2 pt-0">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#LeadAddModal">Add Lead</button>
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID <i class="fa fa-sort" aria-hidden="true" (click)="sort('_id')"></i> </th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>createdAt</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let items of Leads| filter:searchText | paginate: { itemsPerPage: 4, currentPage: p } | orderBy: key : reverse  ; index as i">
-                                <td>{{i+1}} <button class="btn plus ml-3" data-toggle="modal" data-target="#addDate" (click)="Onselect(items?._id)"> <i class="fa fa-plus" aria-hidden="true"></i> </button> </td>
-                                <td>{{items?.name | uppercase}}</td>
-                                <td>{{items?.email}}</td>
-                                <td>{{items?.phone}}</td>
-                                <td>{{items?.createdAt | date: 'd MMM h:mm a'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!--Pagination Controls-->
-                    <pagination-controls (pageChange)="p = $event" *ngIf="Leads?.length > 4"></pagination-controls>
-                </div>
-                <div *ngIf="Leads?.length <= 0">
-                    <p id="noLeadfound">No Lead found.
-                        <a data-toggle="modal" data-target="#LeadAddModal"> Add new </a>
-                    </p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <input type="button" hidden data-dismiss="modal" id="closeModal2">
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="addDate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Add Compaign  Modal -->
+<div class="modal fade" id="addCompaign" tabindex="-1" role="dialog" aria-labelledby="addCompaign" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Lead to Compaign</h5>
+                    <h5 class="modal-title" id="addCompaign">Add Compaign</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -147,70 +84,12 @@
                 <div class="modal-footer date_footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <input type="submit" class="btn btn-primary" (click)="submit()" value="save">
-                    <input type="button" hidden data-dismiss="modal" id="closeModal3">
+                    <input type="button" hidden data-dismiss="modal" id="add_Compaign_MOdal">
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="LeadAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <form [formGroup]="leadForm" (ngSubmit)="submitLead(leadForm)">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Leads</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group col-12 col-md-12">
-                        <label for="name1">Name</label>
-                        <input type="text" placeholder="Name" id="name1" class="form-control" formControlName="name">
-                        <div class="req" *ngIf="name.invalid && (name.dirty || name.touched)">
-                            <span *ngIf="name.errors.required">
-                                Name is required.
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-12 col-md-12">
-                        <label for="email1">Email</label>
-                        <input type="email" placeholder="Email" id="email1" class="form-control" formControlName="email">
-                        <div class="req" *ngIf="email.invalid && (email.dirty || email.touched)">
-                            <span *ngIf="email.errors.required">
-                                Email is required.
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-12 col-md-12">
-                        <label for="phone1">Phone</label>
-                        <input type="number" placeholder="Phone" id="phone1" class="form-control" formControlName="phone">
-                        <div class="req" *ngIf="phone.invalid && (phone.dirty || phone.touched)">
-                            <span *ngIf="phone.errors.required">
-                                Phone is required.
-                            </span>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <input type="submit" [disabled]="!leadForm.valid" class="btn btn-primary" value="save">
-                    <input type="button" hidden data-dismiss="modal" id="leadModalClose">
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-
 
 <!-- Update Modal -->
 <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="UpdateModal" aria-hidden="true">

@@ -19,16 +19,28 @@ export class CompaignService {
     return this.http.get(this.baseUrl + '/compaign/getall');
   }
 
-  singleCompaign(id){
-    return this.http.get(this.baseUrl + '/compaign/'+id);
-  }
-
   delete(id){
     return this.http.delete(this.baseUrl + '/compaign/'+id);
   }
 
   edit(data){
     return this.http.post(this.baseUrl + '/compaign/update/',data);
+  }
+
+  singleCompaign(id){
+    return this.http.get(this.baseUrl + '/compaign/'+id);
+  }
+
+  AllCompaign_MemberBY_compaignid(id){
+    return this.http.get(this.baseUrl + '/member/getall/'+id);
+  }
+
+  createMember(data){
+    return this.http.post(this.baseUrl + '/member/create/',data);
+  }
+
+  deleteMember(id){
+    return this.http.delete(this.baseUrl + '/member/'+id);
   }
 
 }
