@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgxPaginationModule,
     Ng2OrderModule
   ],
-  providers: [LeadService,CompaignService],
+  providers: [LeadService,CompaignService , DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

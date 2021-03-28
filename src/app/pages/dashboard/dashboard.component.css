@@ -5,4 +5,6 @@
 #noLeads {
     margin: 10px auto;
     font-size: 17px;
+    font-weight: 500;
+    color: #545454!important;
 }

@@ -62,6 +62,14 @@ export class LeadsComponent implements OnInit {
           progressAnimation: 'increasing'
         });
       }
+      else if (res.message == "phone already") {
+        this.toast.error('Phone # is alreday exist' , '' ,{
+          timeOut: 2000,
+          positionClass: 'toast-bottom-left',
+          progressBar: true,
+          progressAnimation: 'increasing'
+        });
+      }
     })
   }
 

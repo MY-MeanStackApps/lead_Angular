@@ -8,17 +8,17 @@
                     <!--When No Leads Found-->
                     <div class="row justify-content-center" *ngIf="Leads?.length <= 0">
                         <div class="col-6 col-md-6">
-                            <p>No Leads found</p>
+                            <p class="pt-2">No Leads found</p>
                         </div>
                         <div class="col-6 col-md-6 justify-content-end">
-                            <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#AddModal1" style="float: right;"> Add Leads </button>
+                            <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#AddModal1" style="float: right;"> Add Lead </button>
                         </div>
                     </div>
 
                     <!--When Leads available-->
                     <div *ngIf="Leads?.length >= 1">
                         <div class="row justify-content-end">
-                            <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#AddModal1"> Add Leads </button>
+                            <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#AddModal1"> Add Lead </button>
                         </div>
                         <table class="table">
                             <thead class="thead-light">

@@ -27,4 +27,8 @@ export class CompaignService {
     return this.http.delete(this.baseUrl + '/compaign/'+id);
   }
 
+  edit(data){
+    return this.http.post(this.baseUrl + '/compaign/update/',data);
+  }
+
 }
