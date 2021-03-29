@@ -12,6 +12,10 @@
                         </div>
                         <div class="col-6 col-md-6 justify-content-end">
                             <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#AddModal1" style="float: right;"> Add Lead </button>
+                            <div class="image-upload">
+                                <label for="file-input1">Upload CSV</label>
+                                <input type="file" #fileImportInput name="File Upload" id="file-input1" (change)="fileChangeListener($event)" accept=".csv" />
+                            </div>
                         </div>
                     </div>
 
@@ -19,30 +23,37 @@
                     <div *ngIf="Leads?.length >= 1">
                         <div class="row justify-content-end">
                             <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#AddModal1"> Add Lead </button>
+                            <div class="image-upload">
+                                <label for="file-input">Upload CSV</label>
+                                <input type="file" #fileImportInput name="File Upload" id="file-input" (change)="fileChangeListener($event)" accept=".csv" />
+                            </div>
                         </div>
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let items of Leads;index as i">
-                                    <td>{{i+1}}</td>
-                                    <td>{{items.name | uppercase}}</td>
-                                    <td>{{items.email}}</td>
-                                    <td>{{items.phone}}</td>
-                                    <td>
-                                        <i class="fa fa-pencil mr-4" aria-hidden="true" (click)="singleOnclick(items._id)" data-toggle="modal" data-target="#UpdateModal"></i>
-                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="delete(items._id)"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let items of Leads;index as i">
+                                        <td>{{i+1}}</td>
+                                        <td *ngIf="items.name?.length >= 30">{{items.name.substr(0,30) | uppercase}} ... </td>
+                                        <td *ngIf="items.name?.length <= 30">{{items.name | uppercase}} </td>
+                                        <td>{{items.email}}</td>
+                                        <td>{{items.phone}}</td>
+                                        <td>
+                                            <i class="fa fa-pencil mr-4" aria-hidden="true" (click)="singleOnclick(items._id)" data-toggle="modal" data-target="#UpdateModal"></i>
+                                            <i class="fa fa-trash-o" aria-hidden="true" (click)="delete(items._id)"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

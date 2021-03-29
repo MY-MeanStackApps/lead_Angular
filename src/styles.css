@@ -65,3 +65,27 @@ pagination-controls {
     position: absolute;
     bottom: 0px;
 }
+
+.image-upload>input {
+    display: none;
+}
+
+.image-upload {
+    float: right;
+    margin: 0px 10px;
+}
+
+.image-upload label {
+    min-width: 100px;
+    height: 40px;
+    background: #dddddd;
+    text-align: center;
+    line-height: 40px;
+    color: rgb(61, 61, 61);
+    border-radius: 5px;
+    outline: none !important;
+    font-size: 17px;
+    cursor: pointer;
+    border: 1px solid #cccccc;
+    padding: 0px 10px;
+}

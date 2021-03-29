@@ -171,7 +171,36 @@ export class CompMemberComponent implements OnInit {
   }
 
   AddLeadToCompaign(){
+    // var arr = [];
     this.LeadToCompaign.lead = this.total_selected;
+    //   this.LeadToCompaign.lead.forEach(element => {
+    //     this.members.forEach(item => {
+    //     if(arr.length == 0){
+    //       if (item.lead._id == element._id) {
+    //       } else {
+    //         arr.push(element);
+    //       }
+    //     }else{
+    //       if (item.lead._id != element._id) {
+    //         var doPush = true;
+
+    //       arr.forEach(itemArr => {
+    //             if(itemArr._id == element._id){
+    //              doPush = true;
+    //             }else{
+    //               doPush = false;
+    //               return false;
+    //             }
+    //       });
+    //       if(!doPush){
+    //         arr.push(element);
+    //       }
+    //     }
+    //     }
+
+    // });
+    // });
+    // console.log(arr);
     this.comSrv.createMember(this.LeadToCompaign).subscribe((res: any) => {
       console.log(res);
       if (res.message == "success") {

@@ -19,6 +19,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { CompMemberComponent } from './pages/comp-member/comp-member.component';
+import { NgxCsvParserModule } from 'ngx-csv-parser';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { CompMemberComponent } from './pages/comp-member/comp-member.component';
     BrowserAnimationsModule,
     Ng2SearchPipeModule,
     NgxPaginationModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+    NgxCsvParserModule
   ],
   providers: [LeadService,CompaignService , DatePipe],
   bootstrap: [AppComponent]

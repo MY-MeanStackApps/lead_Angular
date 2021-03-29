@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators , FormBuilder } from '@angular/forms'; //imports
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2'
+import { ViewChild } from '@angular/core';
+import { NgxCsvParser } from 'ngx-csv-parser';
+import { NgxCSVParserError } from 'ngx-csv-parser';
 
 @Component({
   selector: 'app-leads',
@@ -12,6 +15,10 @@ import Swal from 'sweetalert2'
 export class LeadsComponent implements OnInit {
 
   Leads: any;
+  csvRecords: any[] = [];
+  header: boolean = true;
+  @ViewChild('fileImportInput') fileImportInput: any;
+
   UpdateForm = {name: '', email: '', phone: '', id: ''};
   get name (){return this.leadForm.get('name')};
   get email (){return this.leadForm.get('email')};
@@ -20,7 +27,8 @@ export class LeadsComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private leadSrv: LeadService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private ngxCsvParser: NgxCsvParser
     ) { }
   leadForm = this._fb.group({
     name: ['', [Validators.required]],
@@ -32,6 +40,7 @@ export class LeadsComponent implements OnInit {
   ngOnInit(): void {
     this.leadSrv.getall().subscribe((res: any) => {
       this.Leads = res.data;
+      console.log(this.Leads);
     });
   }
 
@@ -84,6 +93,7 @@ export class LeadsComponent implements OnInit {
   }
 
   delete(id){
+    console.log(id);
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this imaginary file!',
@@ -154,6 +164,32 @@ export class LeadsComponent implements OnInit {
         }
       })
     }
+  }
+
+  fileChangeListener($event: any): void {
+
+    const files = $event.srcElement.files;
+    this.header = (this.header as unknown as string) === 'true' || this.header === true;
+
+    this.ngxCsvParser.parse(files[0], { header: this.header, delimiter: ',' })
+      .pipe().subscribe((result: Array<any>) => {
+        this.csvRecords = result;
+        this.leadSrv.createLeads(this.csvRecords).subscribe((data: any) => {
+          console.log(data);
+          this.leadSrv.getall().subscribe((res: any) => {
+            this.Leads = res.data;
+            console.log(this.Leads);
+          });
+          this.toast.success(this.csvRecords.length + 'records Added' , 'Success' ,{
+            timeOut: 4000,
+            positionClass: 'toast-bottom-left',
+            progressBar: true,
+            progressAnimation: 'increasing'
+          });
+        })
+      }, (error: NgxCSVParserError) => {
+        console.log('Error', error);
+      });
   }
 
 }

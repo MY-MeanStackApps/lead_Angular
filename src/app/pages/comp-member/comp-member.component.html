@@ -18,30 +18,32 @@
                         <div class="row justify-content-end">
                             <button class="btn btn-primary mb-3 mr-3" data-toggle="modal" data-target="#AddModal1"> Add Leads </button>
                         </div>
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Lead Name</th>
-                                    <th>Compaign Name</th>
-                                    <th>Compaign Email</th>
-                                    <th>Compaign Date</th>
-                                    <th class="text-right pr-4">Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let items of members;index as i">
-                                    <td>{{i+1}}</td>
-                                    <td>{{items?.lead?.name }}</td>
-                                    <td>{{items?.compaign?.name }}</td>
-                                    <td>{{items?.compaign?.email }}</td>
-                                    <td>{{items?.compaign?.compaigndate }}</td>
-                                    <td class="text-right pr-5">
-                                        <i class="fa fa-trash-o" aria-hidden="true" (click)="delete(items._id)"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive mb-5">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Lead Name</th>
+                                        <th>Compaign Name</th>
+                                        <th>Compaign Email</th>
+                                        <th>Compaign Date</th>
+                                        <th class="text-right pr-4">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let items of members;index as i">
+                                        <td>{{i+1}}</td>
+                                        <td>{{items?.lead?.name }}</td>
+                                        <td>{{items?.compaign?.name }}</td>
+                                        <td>{{items?.compaign?.email }}</td>
+                                        <td>{{items?.compaign?.compaigndate }}</td>
+                                        <td class="text-right pr-5">
+                                            <i class="fa fa-trash-o" aria-hidden="true" (click)="delete(items._id)"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,26 +84,29 @@
                             <button class="btn btn-primary" data-toggle="modal" data-target="#LeadAddModal" style="float: right;">Add Lead</button>
                         </div>
                     </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID <i class="fa fa-sort" aria-hidden="true" (click)="sort('_id')"></i> </th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>createdAt</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let items of Leads| filter:searchText | paginate: { itemsPerPage: 4, currentPage: p } | orderBy: key : reverse  ; index as i">
-                                <td>{{i+1}} <button class="btn plus ml-3" data-toggle="modal" data-target="#addDate" (click)="Onselect(items?.element?._id)"> <i class="fa fa-plus" aria-hidden="true" *ngIf="!items?.selected"></i> <i class="fa fa-check" aria-hidden="true" *ngIf="items?.selected"></i> </button>                                    </td>
-                                <td>{{items?.element?.name | uppercase}}</td>
-                                <td>{{items?.element?.email}}</td>
-                                <td>{{items?.element?.phone}}</td>
-                                <td>{{items?.element?.createdAt | date: 'd MMM h:mm a'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive mb-5">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID <i class="fa fa-sort" aria-hidden="true" (click)="sort('_id')"></i> </th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>createdAt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let items of Leads| filter:searchText | paginate: { itemsPerPage: 4, currentPage: p } | orderBy: key : reverse  ; index as i">
+                                    <td>{{i+1}} <button class="btn plus ml-3" data-toggle="modal" data-target="#addDate" (click)="Onselect(items?.element?._id)"> <i class="fa fa-plus" aria-hidden="true" *ngIf="!items?.selected"></i> <i class="fa fa-check" aria-hidden="true" *ngIf="items?.selected"></i> </button>                                        </td>
+                                    <td *ngIf="items?.element?.name?.length >= 20">{{items?.element?.name.substr(0,20) | uppercase}} ... </td>
+                                    <td *ngIf="items?.element?.name?.length <= 20">{{items?.element?.name | uppercase}} </td>
+                                    <td>{{items?.element?.email}}</td>
+                                    <td>{{items?.element?.phone}}</td>
+                                    <td>{{items?.element?.createdAt | date: 'd MMM h:mm a'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <!--Pagination Controls-->
                     <pagination-controls (pageChange)="p = $event" *ngIf="Leads?.length > 4"></pagination-controls>
                 </div>
