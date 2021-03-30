@@ -212,9 +212,10 @@ export class CompMemberComponent implements OnInit {
         });
         this.comSrv.AllCompaign_MemberBY_compaignid(this.compaignId).subscribe((data: any) => {
           this.members = data.data;
-        })
+        });
         document.getElementById('addToCompaign').click();
         document.getElementById('closeModal2').click();
+        this.total_selected = [];
       } else {
         console.log('somthing went wrong')
       }
