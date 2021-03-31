@@ -24,7 +24,8 @@ export class CompMemberComponent implements OnInit {
   p: number = 1;
   key = 'id';
   reverse:boolean = false;
-
+  allSelected = false;
+  send = [];
   LeadToCompaign = {lead : [] , compaign: ''};
 
   get name (){return this.leadForm.get('name')};
@@ -128,7 +129,7 @@ export class CompMemberComponent implements OnInit {
     });
   }
 
-  Onselect(id){
+  onSingle_Checkox_select(id){
     this.total_selected = [];
     this.Leads.forEach((item: any) => {
       if (item.element._id == id) {
@@ -141,6 +142,11 @@ export class CompMemberComponent implements OnInit {
         this.total_selected.push(item.element);
       }
     });
+    if (this.total_selected.length != this.Leads.length) {
+      this.allSelected = false;
+    } else {
+      this.allSelected = true;
+    }
   }
 
   checkAll(){
@@ -169,41 +175,44 @@ export class CompMemberComponent implements OnInit {
       progressAnimation: 'increasing'
     });
   }
+//   arrayWithDuplicates = [
+//     {"type":"LICENSE", "licenseNum": "12345", state:"NV"},
+//     {"type":"LICENSE", "licenseNum": "A7846", state:"CA"},
+//     {"type":"LICENSE", "licenseNum": "12345", state:"OR"},
+//     {"type":"LICENSE", "licenseNum": "10849", state:"CA"},
+//     {"type":"LICENSE", "licenseNum": "B7037", state:"WA"},
+//     {"type":"LICENSE", "licenseNum": "12345", state:"NM"}
+// ];
+
+removeDuplicates(originalArray, prop) {
+     var newArray = [];
+     var lookupObject  = {};
+
+     for(var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+     }
+
+     for(i in lookupObject) {
+         newArray.push(lookupObject[i]);
+     }
+      return newArray;
+ }
 
   AddLeadToCompaign(){
     // var arr = [];
     this.LeadToCompaign.lead = this.total_selected;
+    // this.members.forEach(item => {
+    //   this.send.push(item.lead);
+    // });
     //   this.LeadToCompaign.lead.forEach(element => {
-    //     this.members.forEach(item => {
-    //     if(arr.length == 0){
-    //       if (item.lead._id == element._id) {
-    //       } else {
-    //         arr.push(element);
-    //       }
-    //     }else{
-    //       if (item.lead._id != element._id) {
-    //         var doPush = true;
-
-    //       arr.forEach(itemArr => {
-    //             if(itemArr._id == element._id){
-    //              doPush = true;
-    //             }else{
-    //               doPush = false;
-    //               return false;
-    //             }
-    //       });
-    //       if(!doPush){
-    //         arr.push(element);
-    //       }
-    //     }
-    //     }
-
+    //     this.send.push(element);
     // });
-    // });
-    // console.log(arr);
+  // console.log(this.send);
+  // var uniqueArray = this.removeDuplicates(this.send, "_id");
+  // console.log(uniqueArray);
     this.comSrv.createMember(this.LeadToCompaign).subscribe((res: any) => {
       console.log(res);
-      if (res.message == "success") {
+      if (res.alert == 0) {
         this.toast.success('Leads Add to compaign' , 'Success' ,{
           timeOut: 2000,
           positionClass: 'toast-bottom-left',
@@ -215,8 +224,27 @@ export class CompMemberComponent implements OnInit {
         });
         document.getElementById('addToCompaign').click();
         document.getElementById('closeModal2').click();
-        this.total_selected = [];
-      } else {
+        this.Leads.forEach((item: any) => {
+          if (item.selected) {
+            item.selected = false;
+            this.total_selected = [];
+            this.allSelected = false;
+          }
+        });
+      } else if (res.alert == 1) {
+        document.getElementById('addToCompaign').click();
+        document.getElementById('closeModal2').click();
+        this.comSrv.AllCompaign_MemberBY_compaignid(this.compaignId).subscribe((data: any) => {
+          this.members = data.data;
+        });
+        this.Leads.forEach((item: any) => {
+          if (item.selected) {
+            item.selected = false;
+            this.total_selected = [];
+            this.allSelected = false;
+          }
+        });
+      }else{
         console.log('somthing went wrong')
       }
     })

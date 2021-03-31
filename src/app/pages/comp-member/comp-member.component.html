@@ -75,7 +75,7 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-md-6">
-                            <input type="checkbox" class="ml-3" id="check" (click)="checkAll()">
+                            <input type="checkbox" class="ml-3" [(ngModel)]="allSelected" name="allSelected" id="check" (change)="checkAll()">
                             <label for="check" class="ml-3"> Select All </label>
                             <span class="pl-3" *ngIf="total_selected?.length >= 1">{{total_selected?.length}} records Selected
                             </span>
@@ -97,7 +97,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let items of Leads| filter:searchText | paginate: { itemsPerPage: 4, currentPage: p } | orderBy: key : reverse  ; index as i">
-                                    <td>{{i+1}} <button class="btn plus ml-3" data-toggle="modal" data-target="#addDate" (click)="Onselect(items?.element?._id)"> <i class="fa fa-plus" aria-hidden="true" *ngIf="!items?.selected"></i> <i class="fa fa-check" aria-hidden="true" *ngIf="items?.selected"></i> </button>                                        </td>
+                                    <td>{{i+1}} <input type="checkbox" [(ngModel)]="items.selected" name="further" (click)="onSingle_Checkox_select(items.element._id)"> </td>
                                     <td *ngIf="items?.element?.name?.length >= 20">{{items?.element?.name.substr(0,20) | uppercase}} ... </td>
                                     <td *ngIf="items?.element?.name?.length <= 20">{{items?.element?.name | uppercase}} </td>
                                     <td>{{items?.element?.email}}</td>

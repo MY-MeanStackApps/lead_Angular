@@ -15,6 +15,11 @@ export class LeadService {
     return this.http.post(this.baseUrl + '/lead/create',data);
   }
 
+  createLeadsBycsv(data){
+    return this.http.post(this.baseUrl + '/lead/create/csv',data);
+  }
+
+
   getall(){
     return this.http.get(this.baseUrl + '/lead/getall');
   }

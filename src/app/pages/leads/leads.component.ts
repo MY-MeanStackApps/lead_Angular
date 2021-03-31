@@ -15,7 +15,6 @@ import { NgxCSVParserError } from 'ngx-csv-parser';
 export class LeadsComponent implements OnInit {
 
   Leads: any;
-  csvRecords: any[] = [];
   header: boolean = true;
   @ViewChild('fileImportInput') fileImportInput: any;
 
@@ -40,7 +39,6 @@ export class LeadsComponent implements OnInit {
   ngOnInit(): void {
     this.leadSrv.getall().subscribe((res: any) => {
       this.Leads = res.data;
-      console.log(this.Leads);
     });
   }
 
@@ -84,7 +82,6 @@ export class LeadsComponent implements OnInit {
 
   singleOnclick(id){
     this.leadSrv.singleLeads(id).subscribe((res: any) => {
-      // console.log(res);
       this.UpdateForm.name = res.data[0].name;
       this.UpdateForm.email = res.data[0].email;
       this.UpdateForm.phone = res.data[0].phone;
@@ -93,7 +90,6 @@ export class LeadsComponent implements OnInit {
   }
 
   delete(id){
-    console.log(id);
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this imaginary file!',
@@ -123,7 +119,6 @@ export class LeadsComponent implements OnInit {
             });
           }else{
             console.log('something went wrong');
-
           }
         });
       }
@@ -140,7 +135,6 @@ export class LeadsComponent implements OnInit {
       });
     } else {
       this.leadSrv.edit(this.UpdateForm).subscribe((data: any) => {
-        console.log(data);
         if (data.message == 'success') {
           this.toast.success('Updated Successfully' , '' ,{
             timeOut: 2000,
@@ -173,18 +167,13 @@ export class LeadsComponent implements OnInit {
 
     this.ngxCsvParser.parse(files[0], { header: this.header, delimiter: ',' })
       .pipe().subscribe((result: Array<any>) => {
-        this.csvRecords = result;
-        this.leadSrv.createLeads(this.csvRecords).subscribe((data: any) => {
-          console.log(data);
+        var data = {arr: [result]};
+        data.arr = result;
+        console.log(result);
+        this.leadSrv.createLeadsBycsv(data).subscribe((data: any) => {
+          // console.log(data);
           this.leadSrv.getall().subscribe((res: any) => {
             this.Leads = res.data;
-            console.log(this.Leads);
-          });
-          this.toast.success(this.csvRecords.length + 'records Added' , 'Success' ,{
-            timeOut: 4000,
-            positionClass: 'toast-bottom-left',
-            progressBar: true,
-            progressAnimation: 'increasing'
           });
         })
       }, (error: NgxCSVParserError) => {

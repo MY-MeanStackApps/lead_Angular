@@ -16,7 +16,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.leadSrv.getall().subscribe((res: any) => {
       this.leadsCount = res.data;
-      console.log(res);
       this.leadNum = this.leadsCount.length;
     })
   }
