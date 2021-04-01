@@ -82,6 +82,7 @@ export class LeadsComponent implements OnInit {
 
   singleOnclick(id){
     this.leadSrv.singleLeads(id).subscribe((res: any) => {
+      console.log(res);
       this.UpdateForm.name = res.data[0].name;
       this.UpdateForm.email = res.data[0].email;
       this.UpdateForm.phone = res.data[0].phone;
